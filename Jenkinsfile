@@ -10,8 +10,8 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/AshishBinoy/jenkins-docker-lab.git'
+                checkout scm
+                sh 'git log 1  --online || true'
             }
         }
 

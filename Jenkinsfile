@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USER = 'ashishbinoy710'
-        DOCKERHUB_PASS = credentials('dockerhub-cred') // Jenkins Credential ID
+        DOCKERHUB_cred = credentials('dockerhub-cred') // Jenkins Credential ID
         IMAGE_NAME = 'jenkins-docker-lab'
     }
 
@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/AshishBinoy/jenkins-docker-lab.git'
+                    url: 'https://github.com/AshishBinoy/jenkins-docker-lab.git', credentialsId: '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'
             }
         }
 
@@ -22,18 +22,14 @@ pipeline {
                 }
             }
         }
-
-        
-
         stage('Push to DockerHub') {
             steps {
                 script {
-                    sh "echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin"
+                    sh "echo $DOCKERHUB_cred_PSW | docker login -u $DOCKERHUB_USER --password-stdin"
                     sh 'docker push $DOCKERHUB_USER/$IMAGE_NAME:latest'
                 }
             }
         }
-
     }
 
     post {

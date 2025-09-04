@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER = 'your-dockerhub-username'
+        DOCKERHUB_USER = 'ashishbinoy710'
         DOCKERHUB_PASS = credentials('dockerhub-cred') // Jenkins Credential ID
         IMAGE_NAME = 'jenkins-docker-lab'
     }
@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/your-username/jenkins-docker-lab.git'
+                    url: 'https://github.com/AshishBinoy/jenkins-docker-lab.git'
             }
         }
 

@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'git@github.com:AshishBinoy/t7.14-py-jenkins.git', credentialsId: 'github_keys'
+                git branch: 'main', url: 'git@github.com:AshishBinoy/jenkins-docker-lab.git', credentialsId: 'github_keys'
             }
         }
 

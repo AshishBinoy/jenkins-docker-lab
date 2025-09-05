@@ -22,7 +22,8 @@ pipeline {
                     sh 'docker rm  jenkins_app -f || true'
                     sh 'docker image rmi $DOCKERHUB_USER/$IMAGE_NAME:latest || true' 
                 }
-            }              
+            }  
+        }
         stage('Build Docker Image') {
             steps {
                 script {
@@ -48,8 +49,11 @@ pipeline {
         stage('Deploy to Kuberentes') {
             steps {
                 script {
-                    sh ' kubectl delete kube-files/python-deploy.yaml || true'
-                    sh ' kubectl apply -f kube-files/python-deploy.yaml'
+                    // sh 'kubectl config get-contexts'
+                    // sh ' kubectl delete kube-files/python-deploy.yaml || true'
+                    // sh ' kubectl apply -f kube-files/python-deploy.yaml'
+                    sh 'helm delete nginx || true' 
+                    sh 'helm install nginx ./python-app'
                 }
             }
         }

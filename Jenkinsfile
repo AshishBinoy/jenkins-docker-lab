@@ -14,6 +14,13 @@ pipeline {
                     url: 'https://github.com/AshishBinoy/jenkins-docker-lab.git', credentialsId: 'github_keys'
             }
         }
+        stage('Clean up image and container') {
+            steps {
+                script {
+                    sh 'docker rm  jenkins_app -f || true'
+                    sh 'docker image rmi $DOCKERHUB_USER/$IMAGE_NAME:latest || true' 
+                }
+            } 
 
         stage('Build Docker Image') {
             steps {

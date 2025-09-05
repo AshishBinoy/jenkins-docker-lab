@@ -10,18 +10,18 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/AshishBinoy/jenkins-docker-lab.git', credentialsId: 'github_keys'
+                git branch: 'main', url: 'git@github.com:AshishBinoy/t7.14-py-jenkins.git', credentialsId: 'github_keys'
             }
         }
+
         stage('Clean up image and container') {
             steps {
                 script {
+               //     sh 'git clone git@github.com:Vishwanathms/t7.14-py-jenkins.git'
                     sh 'docker rm  jenkins_app -f || true'
                     sh 'docker image rmi $DOCKERHUB_USER/$IMAGE_NAME:latest || true' 
                 }
-            } 
-        }
+            }              
         stage('Build Docker Image') {
             steps {
                 script {
@@ -37,14 +37,24 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy (Run Container)') {
             steps {
                 script {
-                    sh 'docker run -d -p 5000:5000 --name jenkins_app $DOCKERHUB_USER/$IMAGE_NAME:latest'
+                   sh 'docker run -d -p 5000:5000 --name jenkins_app $DOCKERHUB_USER/$IMAGE_NAME:latest'
                 }
             }
         }
+        stage('Deploy to Kuberentes') {
+            steps {
+                script {
+                    sh ' kubectl delete kube-files/python-deploy.yaml || true'
+                    sh ' kubectl apply -f kube-files/python-deploy.yaml'
+                }
+            }
+        }
+
+       
+
     }
 
     post {

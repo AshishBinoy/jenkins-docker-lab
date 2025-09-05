@@ -21,7 +21,7 @@ pipeline {
                     sh 'docker image rmi $DOCKERHUB_USER/$IMAGE_NAME:latest || true' 
                 }
             } 
-
+        }
         stage('Build Docker Image') {
             steps {
                 script {
